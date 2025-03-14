@@ -15,10 +15,10 @@ exports.register = (req, res, next) => {
   var name = req.body.name
   var email = req.body.email
   var password = req.body.password
-  var age = req.body.age
-  var gender = req.body.gender
-  var weight = req.body.weight
-  var height = req.body.height
+  // var age = req.body.age
+  // var gender = req.body.gender
+  // var weight = req.body.weight
+  // var height = req.body.height
 
 
   let mahoamatkhau = '';
@@ -26,7 +26,7 @@ exports.register = (req, res, next) => {
     bcrybt.hash(password, salt, (err, hash) => {
       mahoamatkhau = hash;
       UserModel.findOne({
-        name: name
+        email: email
       })
         .then(data => {
           if (data) {
@@ -36,10 +36,11 @@ exports.register = (req, res, next) => {
               name: name,
               password: mahoamatkhau,
               email: email,
-              age: age,
-              gender: gender,
-              weight: weight,
-              height: height
+              role: "USER"
+              // age: age,
+              // gender: gender,
+              // weight: weight,
+              // height: height
             })
           }
         })
@@ -82,7 +83,8 @@ exports.login = async (req, res, next) => {
       } else {
         var token = jwt.sign({
           _id: data._id,
-        }, 'mk', { expiresIn: '2h' })
+          role: data.role
+        }, 'mk', { expiresIn: '8h' })
         return res.status(200).json({
           message: 'Dang nhap thanh cong roiii',
           token: token
@@ -94,26 +96,49 @@ exports.login = async (req, res, next) => {
     })
 }
 
+// lấy ra thằng user đang đăng nhập
+exports.getCurrent = async (req, res, next) => {
+  try {
+    var _id = req.user._id;
+    UserModel.findById({ _id })
+      .then((data) => {
+        return res.json({
+          status: "OKE",
+          message: {
+            _id: data._id,
+            name: data.name,
+            email: data.email,
+            role: data.role,
+          },
+        });
+      })
+      .catch((err) => {
+        res.status(500).json("Loi server");
+      });
+  } catch (err) {
+    res.status(500).json("Loi server");
+  }
+};
 
 
 //Lấy dữ liệu
-exports.get = (req, res, next) => {
-  var name = req.body.name
-  var password = req.body.password
-  var email = req.body.email
-  var age = req.body.age
-  var gender = req.body.gender
-  var weight = req.body.weight
-  var height = req.body.height
-  UserModel.find({})
-    .then(data => {
-      res.json(data)
-    })
-    .catch(err => {
-      res.status(500).json('Dang bi loi')
-    })
+// exports.get = (req, res, next) => {
+//   var name = req.body.name
+//   var password = req.body.password
+//   var email = req.body.email
+//   // var age = req.body.age
+//   // var gender = req.body.gender
+//   // var weight = req.body.weight
+//   // var height = req.body.height
+//   UserModel.find({})
+//     .then(data => {
+//       res.json(data)
+//     })
+//     .catch(err => {
+//       res.status(500).json('Dang bi loi')
+//     })
 
-}
+// }
 
 
 //Sửa
@@ -122,19 +147,19 @@ exports.update = (req, res, next) => {
   var newpassword = req.body.newpassword
   var newemail = req.body.newemail
   var newname = req.body.newname
-  var newage = req.body.age
-  var newweight = req.body.newweight
-  var newgender = req.body.newgender
-  var newheight = req.body.newheight
+  // var newage = req.body.age
+  // var newweight = req.body.newweight
+  // var newgender = req.body.newgender
+  // var newheight = req.body.newheight
 
   UserModel.findByIdAndUpdate(id, {
     password: newpassword,
     email: newemail,
     name: newname,
-    age: newage,
-    weight: newweight,
-    gender: newgender,
-    height: newheight,
+    // age: newage,
+    // weight: newweight,
+    // gender: newgender,
+    // height: newheight,
   })
     .then(data => {
       res.json('Sua thanh cong')
@@ -145,18 +170,18 @@ exports.update = (req, res, next) => {
 }
 
 
-exports.getById = (req, res, next) => {
-  var id = req.params._id
+// exports.getById = (req, res, next) => {
+//   var id = req.params._id
 
-  UserModel.findById({ id })
-    .then(data => {
-      res.json(data)
-    })
-    .catch(err => {
-      res.status(500).json('Dang bi loi')
-    })
+//   UserModel.findById({ id })
+//     .then(data => {
+//       res.json(data)
+//     })
+//     .catch(err => {
+//       res.status(500).json('Dang bi loi')
+//     })
 
-}
+// }
 
 //Xóa
 exports.delete = (req, res, next) => {

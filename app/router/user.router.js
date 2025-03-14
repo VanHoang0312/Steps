@@ -1,7 +1,8 @@
 const express = require('express')
 const router = express.Router()
 const { body } = require('express-validator')
-const controler = require('../controler/user.controler')
+const controler = require('../controler/user.controler');
+const { verifyToken } = require('../midleware');
 
 
 router.post('/register',
@@ -11,17 +12,18 @@ router.post('/register',
   ],
   controler.register
 );
-  //Danh nhap
-  router.post('/login', controler.login)
-  //Lay 
-  router.get('/layall' , controler.get)
-  //Lay theo id
-  router.get('/:id', controler.getById)
-  //Sua
-  router.put('/:id', controler.update)
-  //Xoa
-  router.delete('/:id' ,controler.delete)
-  
-  
-  
-  module.exports = router
+//Danh nhap
+router.post('/login', controler.login)
+//Lay 
+// router.get('/layall', controler.get)
+//Lay theo id
+// router.get('/:id', controler.getById)
+//Sua
+router.put('/:id', controler.update)
+//Xoa
+router.delete('/:id', controler.delete)
+//getcurenData
+router.get('/curendata', verifyToken, controler.getCurrent)
+
+
+module.exports = router
