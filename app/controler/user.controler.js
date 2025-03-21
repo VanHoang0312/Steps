@@ -84,7 +84,7 @@ exports.login = async (req, res, next) => {
         var token = jwt.sign({
           _id: data._id,
           role: data.role
-        }, 'mk', { expiresIn: '8h' })
+        }, 'mk', { expiresIn: '365d' })
         return res.status(200).json({
           message: 'Dang nhap thanh cong roiii',
           token: token

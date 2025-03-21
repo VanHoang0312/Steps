@@ -11,19 +11,19 @@ exports.create = (req, res, next) => {
     return res.status(400).json({ errors: errorMessages });
   }
   var user_id = req.body.user_id
-  var date = req.body.date
+  var day = req.body.day
   var steps = req.body.steps
   var distance = req.body.distance
   var calo = req.body.calo
-  var active_minutes = req.body.active_minutes
+  var activeTime = req.body.activeTime
 
   DailyactivityModel.create({
     user_id: user_id,
-    date: date,
+    day: day,
     steps: steps,
     distance: distance,
     calo: calo,
-    active_minutes: active_minutes
+    activeTime: activeTime
   })
     .then(data => {
       if (data) {
@@ -39,18 +39,18 @@ exports.create = (req, res, next) => {
 //Sua
 exports.update = (req, res, next) => {
   var id = req.params._id
-  var newdate = req.body.newdate
+  var newday = req.body.newday
   var newsteps = req.body.newsteps
   var newdistance = req.body.newdistance
   var newcalo = req.body.newcalo
-  var newactive_minutes = req.body.newactive_minutes
+  var newactiveTime = req.body.newactiveTime
 
   DailyactivityModel.findByIdAndUpdate(id, {
-    date: newdate,
+    day: newday,
     steps: newsteps,
     distance: newdistance,
     calo: newcalo,
-    active_minutes: newactive_minutes,
+    newactiveTime: newactiveTime,
 
   })
     .then(data => {
@@ -80,11 +80,11 @@ exports.delete = (req, res, next) => {
 //Lay
 exports.get = (req, res, next) => {
   var user_id = req.body.user_id
-  var date = req.body.date
+  var day = req.body.day
   var steps = req.body.steps
   var distance = req.body.distance
   var calo = req.body.calo
-  var active_minutes = req.body.active_minutes
+  var activeTime = req.body.activeTime
 
   DailyactivityModel.find({})
     .then(data => {
