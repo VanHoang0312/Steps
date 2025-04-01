@@ -9,9 +9,7 @@ app.use(cookieParser())
 app.use(express.json()); // để xử lý dạng dữ liệu json
 app.use(express.urlencoded({ extended: true })); // để xử lý dữ liệu url encoded
 app.use(cors({ credentials: true, origin: "*" })); // chấp thuận cors từ mọi 
-
-
-
+const path = require('path')
 
 
 
@@ -19,18 +17,14 @@ app.use(cors({ credentials: true, origin: "*" })); // chấp thuận cors từ m
 var routerUser = require('./app/router/user.router')
 app.use('/api/user', routerUser)
 
-var routerDailyactivity = require('./app/router/dailyactivity.router')
-app.use('/api/dailyactivity', routerDailyactivity)
+var routerGift = require('./app/router/gift.router')
+app.use('/api/gift', routerGift)
 
-var routerGoals = require('./app/router/goals.router')
-app.use('/api/goal', routerGoals)
+var routerFile = require("./app/router/file.router");
+app.use("/api", routerFile);
 
-var routerNotifications = require('./app/router/notifications.router')
-app.use('/api/notifications', routerNotifications)
-
-var routerWorkout = require('./app/router/workout.router')
-app.use('/api/workout', routerWorkout)
-
+app.use("/", express.static(path.join("./app/public")));
+app.use("/uploads", express.static(path.join("./app/public")));
 
 app.listen(3002, () => {
   console.log(`link: http://localhost:${3002}`)

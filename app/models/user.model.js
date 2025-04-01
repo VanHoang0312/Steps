@@ -9,11 +9,7 @@ const userSchema = new Schema({
         enum: ["ADMIN", "USER"],
         type: String,
     }
-    // age: Number,
-    // gender: String,
-    // weight: Number,
-    // height: Number,
-    
+  
 }, {timestamps: true,
     collection: 'user'
 })

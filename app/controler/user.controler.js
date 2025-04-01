@@ -15,10 +15,6 @@ exports.register = (req, res, next) => {
   var name = req.body.name
   var email = req.body.email
   var password = req.body.password
-  // var age = req.body.age
-  // var gender = req.body.gender
-  // var weight = req.body.weight
-  // var height = req.body.height
 
 
   let mahoamatkhau = '';
@@ -37,10 +33,6 @@ exports.register = (req, res, next) => {
               password: mahoamatkhau,
               email: email,
               role: "USER"
-              // age: age,
-              // gender: gender,
-              // weight: weight,
-              // height: height
             })
           }
         })
@@ -62,12 +54,7 @@ exports.login = async (req, res, next) => {
   var name = req.body.name
   var password = req.body.password
   var email = req.body.email
-  //   var age = req.body.age
-  //   var gender = req.body.gender
-  //   var weight = req.body.weight
-  //   var height = req.body.height
-
-
+  
   UserModel.findOne({
     name: name,
     email: email
@@ -147,19 +134,11 @@ exports.update = (req, res, next) => {
   var newpassword = req.body.newpassword
   var newemail = req.body.newemail
   var newname = req.body.newname
-  // var newage = req.body.age
-  // var newweight = req.body.newweight
-  // var newgender = req.body.newgender
-  // var newheight = req.body.newheight
 
   UserModel.findByIdAndUpdate(id, {
     password: newpassword,
     email: newemail,
     name: newname,
-    // age: newage,
-    // weight: newweight,
-    // gender: newgender,
-    // height: newheight,
   })
     .then(data => {
       res.json('Sua thanh cong')
